@@ -1,0 +1,204 @@
+# Deploying ECareerGuide Backend on Render
+
+This guide will help you deploy your PHP backend on Render and access the APIs.
+
+## Prerequisites
+
+1. **GitHub Account** - You'll need to connect your code to GitHub
+2. **Render Account** - Sign up at https://render.com/
+3. **Database** - You'll need a MySQL database (Render provides this)
+
+## Step 1: Prepare Your Code
+
+### 1.1 Create a GitHub Repository
+
+1. Go to GitHub and create a new repository
+2. Name it something like `ecareerguide-backend`
+3. Make it public (Render free tier requires public repos)
+
+### 1.2 Upload Your Code
+
+1. Clone your repository locally
+2. Copy all files from the `backend` folder to your repository
+3. Commit and push to GitHub
+
+Your repository structure should look like:
+```
+ecareerguide-backend/
+├── api/
+├── public_html/
+├── vendor/
+├── composer.json
+├── composer.lock
+├── render.yaml
+└── README.md
+```
+
+## Step 2: Set Up Render
+
+### 2.1 Create a New Web Service
+
+1. Go to https://dashboard.render.com/
+2. Click "New +" and select "Web Service"
+3. Connect your GitHub account if not already connected
+4. Select your `ecareerguide-backend` repository
+
+### 2.2 Configure the Web Service
+
+**Basic Settings:**
+- **Name:** `ecareerguide-backend`
+- **Environment:** `PHP`
+- **Region:** Choose closest to your users
+- **Branch:** `main` (or your default branch)
+- **Build Command:** `composer install`
+- **Start Command:** `vendor/bin/heroku-php-apache2 public_html/`
+
+**Environment Variables:**
+Add these environment variables in the Render dashboard:
+
+```
+PHP_VERSION = 8.1
+DB_HOST = [your-database-host]
+DB_NAME = [your-database-name]
+DB_USER = [your-database-username]
+DB_PASS = [your-database-password]
+```
+
+### 2.3 Create a Database
+
+1. In Render dashboard, click "New +" and select "PostgreSQL" or "MySQL"
+2. Choose "MySQL" for compatibility with your existing schema
+3. Name it `ecareerguide-db`
+4. Note down the connection details
+
+## Step 3: Deploy
+
+1. Click "Create Web Service"
+2. Render will automatically build and deploy your application
+3. Wait for the build to complete (usually 2-5 minutes)
+4. Your app will be available at: `https://your-app-name.onrender.com`
+
+## Step 4: Set Up Database
+
+### 4.1 Import Database Schema
+
+1. Go to your database in Render dashboard
+2. Click "Connect" and select "External Database"
+3. Use a MySQL client (like MySQL Workbench) to connect
+4. Import your `database_schema.sql` file
+
+### 4.2 Update Environment Variables
+
+1. Go back to your web service
+2. Click "Environment" tab
+3. Update the database environment variables with your actual database credentials
+
+## Step 5: Test Your APIs
+
+### 5.1 Test the Base URL
+
+Visit: `https://your-app-name.onrender.com`
+
+You should see a JSON response with API documentation.
+
+### 5.2 Test Login API
+
+**URL:** `https://your-app-name.onrender.com/api/login.php`
+
+**Method:** POST
+
+**Headers:**
+```
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+    "email": "test@example.com",
+    "password": "testpassword"
+}
+```
+
+### 5.3 Test Registration API
+
+**URL:** `https://your-app-name.onrender.com/api/register.php`
+
+**Method:** POST
+
+**Headers:**
+```
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+    "name": "Test User",
+    "email": "testuser@example.com",
+    "password": "testpassword123",
+    "phone": "+1234567890",
+    "user_type": "student"
+}
+```
+
+## Step 6: Update Frontend
+
+Update your React Native app's API base URL:
+
+```javascript
+// In your API service file
+const BASE_URL = 'https://your-app-name.onrender.com';
+```
+
+## Troubleshooting
+
+### Common Issues:
+
+1. **Build Fails:**
+   - Check that `composer.json` exists
+   - Ensure all dependencies are listed in `composer.json`
+
+2. **Database Connection Fails:**
+   - Verify environment variables are set correctly
+   - Check that database is accessible from your web service
+
+3. **CORS Issues:**
+   - The `.htaccess` file should handle CORS
+   - Check that headers are being set correctly
+
+4. **404 Errors:**
+   - Ensure files are in the `public_html` directory
+   - Check that `.htaccess` is configured correctly
+
+### Useful Commands:
+
+```bash
+# Check build logs
+# Go to your web service in Render dashboard and click "Logs"
+
+# Check environment variables
+# Go to "Environment" tab in your web service
+```
+
+## API Endpoints
+
+Once deployed, your APIs will be available at:
+
+- **Base URL:** `https://your-app-name.onrender.com`
+- **Login:** `POST /api/login.php`
+- **Register:** `POST /api/register.php`
+- **Profile:** `GET /api/profile.php`
+- **Counselors:** `GET /api/get_counselors.php`
+- **AI Chat:** `POST /api/ask-ai.php`
+
+## Cost
+
+- **Free Tier:** $0/month (with limitations)
+- **Paid Plans:** Starting at $7/month for more resources
+
+The free tier includes:
+- 750 hours/month of runtime
+- Sleep mode after 15 minutes of inactivity
+- 512MB RAM
+- Shared CPU 
