@@ -1,6 +1,6 @@
-# Deploying ECareerGuide Backend on Render
+# Deploying ECareerGuide Backend on Render (Docker)
 
-This guide will help you deploy your PHP backend on Render and access the APIs.
+This guide will help you deploy your PHP backend on Render using Docker and access the APIs.
 
 ## Prerequisites
 
@@ -27,9 +27,12 @@ Your repository structure should look like:
 ecareerguide-backend/
 ├── api/
 ├── public_html/
+├── docker/
 ├── vendor/
 ├── composer.json
 ├── composer.lock
+├── Dockerfile
+├── docker-compose.yml
 ├── render.yaml
 └── README.md
 ```
@@ -47,17 +50,15 @@ ecareerguide-backend/
 
 **Basic Settings:**
 - **Name:** `ecareerguide-backend`
-- **Environment:** `PHP`
+- **Environment:** `Docker`
 - **Region:** Choose closest to your users
 - **Branch:** `main` (or your default branch)
-- **Build Command:** `composer install`
-- **Start Command:** `vendor/bin/heroku-php-apache2 public_html/`
+- **Dockerfile Path:** `./Dockerfile` (should auto-detect)
 
 **Environment Variables:**
 Add these environment variables in the Render dashboard:
 
 ```
-PHP_VERSION = 8.1
 DB_HOST = [your-database-host]
 DB_NAME = [your-database-name]
 DB_USER = [your-database-username]
@@ -74,8 +75,8 @@ DB_PASS = [your-database-password]
 ## Step 3: Deploy
 
 1. Click "Create Web Service"
-2. Render will automatically build and deploy your application
-3. Wait for the build to complete (usually 2-5 minutes)
+2. Render will automatically build and deploy your Docker container
+3. Wait for the build to complete (usually 3-7 minutes for first build)
 4. Your app will be available at: `https://your-app-name.onrender.com`
 
 ## Step 4: Set Up Database
@@ -151,25 +152,39 @@ Update your React Native app's API base URL:
 const BASE_URL = 'https://your-app-name.onrender.com';
 ```
 
+## Local Development
+
+To test locally before deploying:
+
+```bash
+# Build and run with Docker Compose
+docker-compose up --build
+
+# Your app will be available at http://localhost:8080
+# Database will be available at localhost:3306
+```
+
 ## Troubleshooting
 
 ### Common Issues:
 
 1. **Build Fails:**
-   - Check that `composer.json` exists
-   - Ensure all dependencies are listed in `composer.json`
+   - Check that `Dockerfile` exists
+   - Ensure all required files are present
+   - Check Docker build logs in Render dashboard
 
 2. **Database Connection Fails:**
    - Verify environment variables are set correctly
    - Check that database is accessible from your web service
+   - Ensure database credentials are correct
 
 3. **CORS Issues:**
-   - The `.htaccess` file should handle CORS
+   - The Apache configuration should handle CORS
    - Check that headers are being set correctly
 
 4. **404 Errors:**
-   - Ensure files are in the `public_html` directory
-   - Check that `.htaccess` is configured correctly
+   - Ensure files are in the correct directories
+   - Check that Apache configuration is correct
 
 ### Useful Commands:
 
@@ -179,6 +194,9 @@ const BASE_URL = 'https://your-app-name.onrender.com';
 
 # Check environment variables
 # Go to "Environment" tab in your web service
+
+# Test locally
+docker-compose up --build
 ```
 
 ## API Endpoints
@@ -201,4 +219,12 @@ The free tier includes:
 - 750 hours/month of runtime
 - Sleep mode after 15 minutes of inactivity
 - 512MB RAM
-- Shared CPU 
+- Shared CPU
+
+## Advantages of Docker Deployment
+
+1. **Consistent Environment** - Same environment locally and in production
+2. **Better Control** - Full control over PHP version and extensions
+3. **Easier Debugging** - Can test locally with exact same setup
+4. **Scalability** - Easy to scale horizontally
+5. **Dependencies** - All dependencies are bundled in the container 

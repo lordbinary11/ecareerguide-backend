@@ -1,4 +1,4 @@
-# Quick Start: Deploy on Render
+# Quick Start: Deploy on Render (Docker)
 
 ## 🚀 Fast Deployment Steps
 
@@ -20,7 +20,7 @@ cp -r backend/* ecareerguide-backend/
 # Commit and push
 cd ecareerguide-backend
 git add .
-git commit -m "Initial backend deployment"
+git commit -m "Initial backend deployment with Docker"
 git push origin main
 ```
 
@@ -31,9 +31,8 @@ git push origin main
 3. **Connect GitHub** and select your repository
 4. **Configure:**
    - Name: `ecareerguide-backend`
-   - Environment: `PHP`
-   - Build Command: `composer install`
-   - Start Command: `vendor/bin/heroku-php-apache2 public_html/`
+   - Environment: `Docker`
+   - Dockerfile Path: `./Dockerfile` (auto-detected)
 5. **Click "Create Web Service"**
 
 ### 4. Create Database
@@ -50,7 +49,6 @@ DB_HOST = [from database]
 DB_NAME = [from database]
 DB_USER = [from database]
 DB_PASS = [from database]
-PHP_VERSION = 8.1
 ```
 
 ### 6. Import Database
@@ -67,6 +65,18 @@ PHP_VERSION = 8.1
 - `GET /` - API documentation
 - `POST /api/login.php` - Login
 - `POST /api/register.php` - Registration
+
+## 🐳 Local Development
+
+Test locally before deploying:
+
+```bash
+# Build and run with Docker Compose
+docker-compose up --build
+
+# Your app will be available at http://localhost:8080
+# Database will be available at localhost:3306
+```
 
 ## 📱 Update Frontend
 
@@ -85,12 +95,19 @@ This will show you if everything is working correctly.
 
 ## 🔧 Troubleshooting
 
-- **Build fails:** Check `composer.json` exists
+- **Build fails:** Check `Dockerfile` exists and is valid
 - **Database error:** Verify environment variables
-- **404 errors:** Check file paths in `public_html/`
+- **404 errors:** Check file paths and Apache configuration
 
 ## 💰 Cost
 
 - **Free tier:** $0/month
 - **Limitations:** Sleep mode after 15 min inactivity
-- **Upgrade:** $7/month for always-on service 
+- **Upgrade:** $7/month for always-on service
+
+## 🐳 Docker Benefits
+
+- **Consistent Environment** - Same setup locally and in production
+- **Better Control** - Full control over PHP version and extensions
+- **Easy Testing** - Test locally with exact same environment
+- **Scalable** - Easy to scale horizontally 

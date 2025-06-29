@@ -1,14 +1,9 @@
 services:
   - type: web
     name: ecareerguide-backend
-    env: php
-    buildCommand: composer install
-    startCommand: vendor/bin/heroku-php-apache2 public_html/
+    env: docker
+    dockerfilePath: ./Dockerfile
     envVars:
-      - key: PHP_VERSION
-        value: 8.1
-      - key: DATABASE_URL
-        sync: false
       - key: DB_HOST
         sync: false
       - key: DB_NAME
@@ -16,4 +11,6 @@ services:
       - key: DB_USER
         sync: false
       - key: DB_PASS
+        sync: false
+      - key: DATABASE_URL
         sync: false 
