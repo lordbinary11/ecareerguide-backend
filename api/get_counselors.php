@@ -1,17 +1,10 @@
 <?php
 // Fetches the list of counselors
 
-// CORS Headers
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Added Authorization header
-header('Content-Type: application/json');
+// Include CORS helper
+require_once __DIR__ . '/cors_helper.php';
 
-// Handle requests (OPTIONS)
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+header('Content-Type: application/json');
 
 // Enable error reporting for debugging (disable in production)
 error_reporting(E_ALL);

@@ -56,13 +56,19 @@ ecareerguide-backend/
 - **Dockerfile Path:** `./Dockerfile` (should auto-detect)
 
 **Environment Variables:**
-Add these environment variables in the Render dashboard:
+The application automatically uses the `DATABASE_URL` environment variable that Render provides. However, you can also set individual variables if needed:
 
+**Option 1: Use DATABASE_URL (Recommended)**
+- Render automatically provides this when you create a PostgreSQL database
+- No additional configuration needed
+
+**Option 2: Individual Variables (Fallback)**
 ```
 DB_HOST = [your-database-host]
 DB_NAME = [your-database-name]
 DB_USER = [your-database-username]
 DB_PASS = [your-database-password]
+DB_PORT = 5432
 ```
 
 ### 2.3 Create a Database

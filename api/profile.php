@@ -2,11 +2,10 @@
 // AI-Career-Project/backend/api/profile.php
 // Handles GET (fetch) and PUT (update) requests for user (student) profiles.
 
-header("Access-Control-Allow-Origin: http://localhost:5173");
+// Include CORS helper
+require_once __DIR__ . '/cors_helper.php';
+
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Headers: Authorization, Content-Type");
-header("Access-Control-Allow-Methods: GET, PUT, OPTIONS");
-header('Access-Control-Allow-Credentials: true');
 
 // Enable error reporting for debugging (disable in production)
 error_reporting(E_ALL);
@@ -15,12 +14,6 @@ ini_set('display_errors', 0); // Set to 0 for production, but consider logging t
 // Include JWT helper and database connection
 require_once __DIR__ . '/jwt_helper.php';
 require_once __DIR__ . '/../db_connect.php'; // db_connect.php is one folder UP
-
-// Handle OPTIONS preflight requests
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
 
 // 1. Authenticate and get user details from the token
 $headers = apache_request_headers();
