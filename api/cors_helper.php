@@ -4,6 +4,9 @@
 // Get the origin from the request
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
+// Log the incoming origin for debugging
+error_log('CORS request from origin: ' . $origin);
+
 // Define allowed origins
 $allowed_origins = [
     'http://localhost:5173',           // Local development (Vite)
