@@ -1,11 +1,9 @@
 <?php
 // backend/api/get_counselor_meetings.php
 
-// 1. CORS Headers - Must be at the very top before any output
-header('Access-Control-Allow-Origin: http://localhost:5173');
-header('Access-Control-Allow-Methods: GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-header('Access-Control-Allow-Credentials: true');
+// Include CORS helper
+require_once __DIR__ . '/cors_helper.php';
+
 header('Content-Type: application/json');
 
 // Handle preflight requests (OPTIONS) - Must exit here

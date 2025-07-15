@@ -1,10 +1,8 @@
 <?php
 
-// CORS headers - Essential for frontend communication
-header('Access-Control-Allow-Origin: http://localhost:5173');
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE'); // Add other methods as needed for your API
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-header('Access-Control-Allow-Credentials: true');
+// Include CORS helper
+require_once __DIR__ . '/cors_helper.php';
+
 header('Content-Type: application/json');
 
 // Handle preflight OPTIONS request

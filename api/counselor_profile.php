@@ -2,11 +2,10 @@
 // AI-Career-Project/backend/api/counselor_profile.php
 // Handles GET (fetch) and PUT (update) requests for counselor profiles.
 
-header("Access-Control-Allow-Origin: http://localhost:5173");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Headers: Authorization, Content-Type");
-header("Access-Control-Allow-Methods: GET, PUT, OPTIONS");
-header('Access-Control-Allow-Credentials: true');
+// Include CORS helper
+require_once __DIR__ . '/cors_helper.php';
+
+header('Content-Type: application/json');
 
 // Enable error reporting for debugging (disable in production)
 error_reporting(E_ALL);

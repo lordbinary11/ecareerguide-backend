@@ -7,11 +7,9 @@
 ini_set('display_errors', 0); // Keep at 0 for production, errors should be logged
 error_reporting(E_ALL); // Log all errors
 
-// 1. CORS Headers
-header('Access-Control-Allow-Origin: http://localhost:5173'); // Adjust for your frontend domain
-header('Access-Control-Allow-Methods: GET, OPTIONS'); // Only GET and OPTIONS needed for this endpoint
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-header('Access-Control-Allow-Credentials: true');
+// Include CORS helper
+require_once __DIR__ . '/cors_helper.php';
+
 header('Content-Type: application/json');
 
 // Handle OPTIONS requests (preflight)

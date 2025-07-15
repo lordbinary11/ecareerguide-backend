@@ -1,9 +1,10 @@
 <?php
 // AI-Career-Project/backend/api/user-profile.php
 
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Headers: Authorization");
+// Include CORS helper
+require_once __DIR__ . '/cors_helper.php';
+
+header('Content-Type: application/json');
 
 // Check if AUTH_USER_ID is defined (meaning it was included by profile.php)
 if (!defined('AUTH_USER_ID')) {

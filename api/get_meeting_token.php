@@ -1,11 +1,9 @@
 <?php
 // backend/api/get_meeting_token.php - TEMPORARY DEBUGGING VERSION
 
-// 1. CORS Headers (still necessary for the browser to even make the request)
-header('Access-Control-Allow-Origin: http://localhost:5173');
-header('Access-Control-Allow-Methods: GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-header('Access-Control-Allow-Credentials: true');
+// Include CORS helper
+require_once __DIR__ . '/cors_helper.php';
+
 header('Content-Type: application/json'); // Keep as JSON for consistent response structure
 
 // Handle preflight (OPTIONS) requests

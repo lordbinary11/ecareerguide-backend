@@ -5,10 +5,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 0); // Crucial: Set to 0 to prevent warnings/errors from appearing in API response body
 
-// Set CORS headers
-header('Access-Control-Allow-Origin: http://localhost:5173'); // Adjust for your frontend domain
-header("Access-Control-Allow-Methods: GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Ensure Authorization header is allowed
+// Include CORS helper
+require_once __DIR__ . '/cors_helper.php';
+
 header('Content-Type: application/json');
 
 // Handle pre-flight OPTIONS request

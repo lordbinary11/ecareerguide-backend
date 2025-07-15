@@ -7,9 +7,9 @@ ini_set('display_errors', 0); // Set to 0 for production
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/../php_error.log');
 
-header('Access-Control-Allow-Origin: http://localhost:5173');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+// Include CORS helper
+require_once __DIR__ . '/cors_helper.php';
+
 header('Content-Type: application/json');
 header('Access-Control-Allow-Credentials: true'); // Crucial for sending cookies/auth headers
 
