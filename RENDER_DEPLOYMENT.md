@@ -6,7 +6,7 @@ This guide will help you deploy your PHP backend on Render using Docker and acce
 
 1. **GitHub Account** - You'll need to connect your code to GitHub
 2. **Render Account** - Sign up at https://render.com/
-3. **Database** - You'll need a MySQL database (Render provides this)
+3. **Database** - You'll need a PostgreSQL database (Render provides this)
 
 ## Step 1: Prepare Your Code
 
@@ -67,10 +67,9 @@ DB_PASS = [your-database-password]
 
 ### 2.3 Create a Database
 
-1. In Render dashboard, click "New +" and select "PostgreSQL" or "MySQL"
-2. Choose "MySQL" for compatibility with your existing schema
-3. Name it `ecareerguide-db`
-4. Note down the connection details
+1. In Render dashboard, click "New +" and select "PostgreSQL"
+2. Name it `ecareerguide-db`
+3. Note down the connection details
 
 ## Step 3: Deploy
 
@@ -85,7 +84,7 @@ DB_PASS = [your-database-password]
 
 1. Go to your database in Render dashboard
 2. Click "Connect" and select "External Database"
-3. Use a MySQL client (like MySQL Workbench) to connect
+3. Use a PostgreSQL client (like pgAdmin, DBeaver, or psql) to connect
 4. Import your `database_schema.sql` file
 
 ### 4.2 Update Environment Variables
@@ -161,7 +160,7 @@ To test locally before deploying:
 docker-compose up --build
 
 # Your app will be available at http://localhost:8080
-# Database will be available at localhost:3306
+# Database will be available at localhost:5432
 ```
 
 ## Troubleshooting
@@ -177,6 +176,7 @@ docker-compose up --build
    - Verify environment variables are set correctly
    - Check that database is accessible from your web service
    - Ensure database credentials are correct
+   - Make sure you're using PostgreSQL connection details, not MySQL
 
 3. **CORS Issues:**
    - The Apache configuration should handle CORS
@@ -220,6 +220,21 @@ The free tier includes:
 - Sleep mode after 15 minutes of inactivity
 - 512MB RAM
 - Shared CPU
+
+## PostgreSQL Considerations
+
+### Why PostgreSQL?
+- **Render's Default**: PostgreSQL is the default database on Render's free tier
+- **Better Performance**: PostgreSQL offers better performance for complex queries
+- **JSON Support**: Native JSONB support for storing structured data
+- **ACID Compliance**: Full ACID compliance for data integrity
+
+### Key Differences from MySQL:
+- Uses `SERIAL` instead of `AUTO_INCREMENT` for auto-incrementing IDs
+- Uses `JSONB` instead of `JSON` for better performance
+- Uses `CHECK` constraints instead of `ENUM` types
+- Uses `INTEGER` instead of `INT`
+- Connection string format: `pgsql:host=...` instead of `mysql:host=...`
 
 ## Advantages of Docker Deployment
 

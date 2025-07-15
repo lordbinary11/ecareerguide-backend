@@ -37,7 +37,7 @@ git push origin main
 
 ### 4. Create Database
 
-1. **Click "New +" → "MySQL"**
+1. **Click "New +" → "PostgreSQL"**
 2. **Name:** `ecareerguide-db`
 3. **Note down credentials**
 
@@ -55,7 +55,7 @@ DB_PASS = [from database]
 
 1. Go to your database in Render
 2. Click "Connect" → "External Database"
-3. Use MySQL client to import `database_schema.sql`
+3. Use PostgreSQL client (pgAdmin, DBeaver, or psql) to import `database_schema.sql`
 
 ### 7. Test Your API
 
@@ -75,7 +75,7 @@ Test locally before deploying:
 docker-compose up --build
 
 # Your app will be available at http://localhost:8080
-# Database will be available at localhost:3306
+# Database will be available at localhost:5432
 ```
 
 ## 📱 Update Frontend
