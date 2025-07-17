@@ -12,4 +12,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
-?> 
+// No closing PHP tag or blank lines after this 
