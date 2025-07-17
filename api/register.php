@@ -81,12 +81,22 @@ try {
         $phone = trim($data['phone'] ?? null);
         $specialization = trim($data['specialization'] ?? null);
         $experience = $data['experience'] ?? null; // Should be numeric
-        $availability = trim($data['availability'] ?? null);
-
+        $availability = $data['availability'] ?? null;
+        // Accept both string and array for backward compatibility
+        if (is_array($availability) || is_object($availability)) {
+            $availability = json_encode($availability);
+        }
         // Basic validation for counselor-specific fields
         if (empty($phone) || empty($specialization) || !is_numeric($experience) || empty($availability)) {
             http_response_code(400);
             echo json_encode(["success" => false, "message" => "All counselor fields (phone, specialization, experience, availability) are required."]);
+            exit();
+        }
+        // If availability is a JSON array, check it's not empty
+        $decodedAvailability = json_decode($availability, true);
+        if (json_last_error() === JSON_ERROR_NONE && (empty($decodedAvailability) || !is_array($decodedAvailability))) {
+            http_response_code(400);
+            echo json_encode(["success" => false, "message" => "Availability must be a non-empty array."]);
             exit();
         }
 
