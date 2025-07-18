@@ -70,12 +70,14 @@ try {
     ]);
 
 } catch (PDOException $e) {
-    http_response_code(500);
     error_log("Student Activity API database error: " . $e->getMessage());
+    error_log("PDOException Trace: " . $e->getTraceAsString());
+    http_response_code(500);
     echo json_encode(["success" => false, "error" => "Database error: " . $e->getMessage()]);
 } catch (Exception $e) {
-    http_response_code(500);
     error_log("Student Activity API general error: " . $e->getMessage());
+    error_log("Exception Trace: " . $e->getTraceAsString());
+    http_response_code(500);
     echo json_encode(["success" => false, "error" => "An error occurred: " . $e->getMessage()]);
 }
 ?>

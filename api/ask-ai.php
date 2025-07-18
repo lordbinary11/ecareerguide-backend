@@ -46,7 +46,7 @@ try {
 
     // IMPORTANT: Storing API keys directly in code is NOT recommended for production.
     // Consider using environment variables or a secure configuration management system.
-    $apiKey = "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"; // Your OpenRouter API Key
+    $apiKey = "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"; // Your OpenRouter API Key
 
     $ch = curl_init();
 
@@ -61,7 +61,7 @@ try {
     ]);
 
     $body = [
-        "model" => "mistralai/mistral-7b-instruct", // Or any other model you prefer on OpenRouter.ai
+        "model" => "tngtech/deepseek-r1t2-chimera:free", // Or any other model you prefer on OpenRouter.ai
         "messages" => [
             ["role" => "system", "content" => "You are a helpful career guidance assistant. Provide concise and direct answers."],
             ["role" => "user", "content" => $user_message]

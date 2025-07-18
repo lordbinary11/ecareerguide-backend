@@ -51,13 +51,14 @@ try {
         exit();
     }
 
-    // Insert the new message into the messages table
-    // Use $user_id_from_auth obtained from the JWT for the user_id
-    $stmt = $pdo->prepare("
-        INSERT INTO messages (user_id, counselor_id, message, status, timestamp)
-        VALUES (?, ?, ?, 'unread', NOW())
-    ");
-    $stmt->execute([$user_id_from_auth, $counselor_id, $message_text]);
+    // Insert the message into the database
+    $stmt = $pdo->prepare("INSERT INTO messages (user_id, counselor_id, message, status, timestamp) VALUES (?, ?, ?, ?, NOW())");
+    $stmt->execute([
+        $user_id_from_auth,
+        $counselor_id,
+        $message_text,
+        'sent' // Use 'sent' instead of 'unread' to match allowed status values
+    ]);
 
     // Check if the message was successfully inserted
     if ($stmt->rowCount() > 0) {
