@@ -146,6 +146,7 @@ function authenticate_user_from_jwt(PDO $pdo, bool $is_counselor_route = false):
 
     $token = get_jwt_from_header();
     if (!$token) {
+        error_log("authenticate_user_from_jwt: No token provided in Authorization header.");
         http_response_code(401); // Unauthorized
         echo json_encode(["error" => "Authorization token not provided."]);
         exit();
@@ -153,6 +154,7 @@ function authenticate_user_from_jwt(PDO $pdo, bool $is_counselor_route = false):
 
     $decoded_token = validate_jwt($token); // <--- Using validate_jwt here
     if (!$decoded_token) {
+        error_log("authenticate_user_from_jwt: Token is invalid or expired.");
         http_response_code(401); // Unauthorized
         echo json_encode(["error" => "Invalid or expired token."]);
         exit();
@@ -161,8 +163,8 @@ function authenticate_user_from_jwt(PDO $pdo, bool $is_counselor_route = false):
     $user_id = $decoded_token->id ?? null;
     $role = $decoded_token->role ?? null;
 
-    // Ensure ID and role are present in token payload
     if (!$user_id || !$role) {
+        error_log("authenticate_user_from_jwt: Token payload missing ID or role. Payload: " . json_encode($decoded_token));
         http_response_code(401);
         echo json_encode(["error" => "Incomplete token payload (missing ID or role)."]);
         exit();
@@ -170,12 +172,14 @@ function authenticate_user_from_jwt(PDO $pdo, bool $is_counselor_route = false):
 
     if ($is_counselor_route) {
         if ($role !== 'counselor') {
+            error_log("authenticate_user_from_jwt: Access denied. Role '$role' tried to access counselor-only endpoint.");
             http_response_code(403); // Forbidden
             echo json_encode(["error" => "Access denied. Only counselors can access this resource."]);
             exit();
         }
     } else { // This is a regular user route
         if ($role !== 'user') { // Assuming 'user' is the role for regular users
+            error_log("authenticate_user_from_jwt: Access denied. Role '$role' tried to access user-only endpoint.");
             http_response_code(403); // Forbidden
             echo json_encode(["error" => "Access denied. Only students/users can access this resource."]);
             exit();
